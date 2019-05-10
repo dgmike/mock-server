@@ -10,17 +10,28 @@ const getApp = require("./getApp");
 const getCert = require("./getCert");
 
 module.exports = function startServer(options) {
-    const { root, watch, port, useHttps } = options;
+    const { root, watch, port, useHttps, bind } = options;
     // Load (require) require-s passed in as options
     options.require.forEach(require);
     const server = useHttps
         ? https.createServer(getCert())
         : http.createServer();
-    server.addListener("request", getApp(options)).listen(port, () => {
-        const mockServer = cyan("mock-server");
-        const protocol = useHttps ? "https:" : "http:";
-        log(`${mockServer} listening on ${protocol}//localhost:${port}`);
-    });
+    server.addListener("request", getApp(options))
+    
+    if (bind !== "") {
+        server.listen(port, bind, () => {
+            const mockServer = cyan("mock-server");
+            const protocol = useHttps ? "https:" : "http:";
+            log(`${mockServer} listening on ${protocol}//${bind}:${port}`);
+        });
+    } else {
+        server.listen(port, () => {
+            const mockServer = cyan("mock-server");
+            const protocol = useHttps ? "https:" : "http:";
+            log(`${mockServer} listening on ${protocol}//localhost:${port}`);
+        });
+    }
+    
     if (watch) {
         // Reconfigure the server on file change. Reconfiguring the server
         // means replacing the listener for the request event. We replace the
