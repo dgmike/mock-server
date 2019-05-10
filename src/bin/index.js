@@ -18,6 +18,11 @@ const argv = yargs
         describe: "Mock server port",
         type: "string"
     })
+    .option("bind", {
+        default: "",
+        describe: "Bind address",
+        type: "string"
+    })
     .option("useHttps", {
         default: false,
         describe: "Use https protocol instead of http",
