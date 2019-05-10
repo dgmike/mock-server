@@ -10,6 +10,8 @@ Basic usage:
 
 - `root`: mock server root directory, defaults to `mock-server`
 - `port`: mock server port, defaults to `3456`
+- `bind`: mock server bind host according host option in node `server.listen` argument
+   ([ref](https://nodejs.org/api/net.html#net_server_listen_port_host_backlog_callback))
 - `delay`: milliseconds to delay responses by, defaults to 0
 - `watch`: boolean flag, makes the server reload on file changes
 - `serveConfig`: boolean flag, serves a config script at `/app-config.js`. The
